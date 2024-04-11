@@ -61,6 +61,7 @@ def get_num_haplotype(
 ):
     counts = get_haplotype_counts(bam,positions)
     if min_count < 1:
+        print(counts)
         temp_count = sum(counts.values()) * min_count
         print(f"Filtering haplotypes with less than {temp_count} reads")
         filtered_counts = {k:v for k,v in counts.items() if v > temp_count}
