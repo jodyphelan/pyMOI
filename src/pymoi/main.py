@@ -91,6 +91,7 @@ def main(
     vcf:pysam.VariantFile,
     outfile: str,
     min_count:int=10,
+    min_fraction:float=0.1,
     maxdist:int=500
 ):
     triplets = get_triplets(
@@ -103,7 +104,8 @@ def main(
         num_haps = get_num_haplotype(
             bam=bam,
             positions=positions,
-            min_count=min_count
+            min_count=min_count,
+            min_fraction=0.1
         )
         if num_haps > 0:
             haplotype_counts.append(num_haps)
@@ -144,5 +146,6 @@ def cli():
         vcf=args.vcf,
         outfile=args.outfile,
         min_count=args.min_count,
+        min_fraction=args.min_frac,
         maxdist=args.maxdist
     )
