@@ -63,7 +63,7 @@ def get_num_haplotype(
     counts = get_haplotype_counts(bam,positions)
     temp_count = sum(counts.values()) * min_fraction
     if temp_count < min_count:
-        min_count = temp_count
+        temp_count = min_count
     print(counts)
     print(f"Filtering haplotypes with less than {temp_count} reads")
     
@@ -137,7 +137,7 @@ def cli():
     parser.add_argument('--vcf', type=pysam.VariantFile, help='VCF file',required = True)
     parser.add_argument('--outfile', type=str, help='Name of output file',required = True)
     parser.add_argument('--maxdist', type=int, default=500, help='Maximum distance between the first and last SNP')
-    parser.add_argument('--min_count', type=int, default=10, help='Minimum count of haplotype')
+    parser.add_argument('--min-count', type=int, default=10, help='Minimum count of haplotype')
     parser.add_argument('--min-frac', type=float, default=0.1, help='Minimum fraction of haplotype of the total number of reads at the site')
     args = parser.parse_args()
     
