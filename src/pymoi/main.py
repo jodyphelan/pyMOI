@@ -48,6 +48,8 @@ def get_haplotype_counts(
             continue
         if read.is_unmapped:
             continue
+        if read.is_duplicate:
+            continue
         alleles = get_alleles(read,positions=positions)
         if all(alleles):
             allele_combinations.append(''.join(alleles))
