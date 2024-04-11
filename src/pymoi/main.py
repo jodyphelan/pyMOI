@@ -57,10 +57,15 @@ def get_haplotype_counts(
 def get_num_haplotype(
     bam:pysam.AlignmentFile,
     positions:List[GenomePosition],
-    min_count:int=10
+    min_count:float=10
 ):
     counts = get_haplotype_counts(bam,positions)
-    filtered_counts = {k:v for k,v in counts.items() if v > min_count}
+    if min_count < 1:
+        temp_count = sum(counts.values()) * min_count
+        print(f"Filtering haplotypes with less than {temp_count} reads")
+        filtered_counts = {k:v for k,v in counts.items() if v > temp_count}
+    else:
+        filtered_counts = {k:v for k,v in counts.items() if v > min_count}
     return len(filtered_counts)
 
 def get_triplets(
@@ -122,12 +127,12 @@ def main(
 
 
 def cli():
-    parser = argparse.ArgumentParser(description='A simple command line tool for Moi')
+    parser = argparse.ArgumentParser(description='A simple command line tool for Moi', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--bam', type=pysam.AlignmentFile, help='BAM (or cram) file',required = True)
     parser.add_argument('--vcf', type=pysam.VariantFile, help='VCF file',required = True)
     parser.add_argument('--outfile', type=str, help='Name of output file',required = True)
     parser.add_argument('--maxdist', type=int, default=500, help='Maximum distance between the first and last SNP')
-    parser.add_argument('--min_count', type=int, default=10, help='Minimum count of haplotype')
+    parser.add_argument('--min_count', type=float, default=10, help='Minimum count of haplotype. If less than 1, it is interpreted as a fraction of the total number of reads at the site')
     args = parser.parse_args()
     
     main(
