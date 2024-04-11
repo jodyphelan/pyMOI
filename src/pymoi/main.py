@@ -138,7 +138,7 @@ def cli():
     parser.add_argument('--outfile', type=str, help='Name of output file',required = True)
     parser.add_argument('--maxdist', type=int, default=500, help='Maximum distance between the first and last SNP')
     parser.add_argument('--min-count', type=int, default=10, help='Minimum count of haplotype')
-    parser.add_argument('--min-frac', type=float, default=0.1, help='Minimum fraction of haplotype of the total number of reads at the site')
+    parser.add_argument('--min-frac', type=float, default=0.1, help='Minimum fraction of haplotype (of the total number of reads at the site)')
     args = parser.parse_args()
     
     main(
